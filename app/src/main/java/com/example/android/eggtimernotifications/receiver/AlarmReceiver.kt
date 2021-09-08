@@ -28,9 +28,8 @@ import com.example.android.eggtimernotifications.util.sendNotification
 class AlarmReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        // TODO: Step 1.10 [Optional] remove toast
-
-        // TODO: Step 1.9 add call to sendNotification
+        // Step 1.10 [Optional] remove toast
+        // Step 1.9 add call to sendNotification
         val notificationManager = ContextCompat.getSystemService(
             context,
             NotificationManager::class.java

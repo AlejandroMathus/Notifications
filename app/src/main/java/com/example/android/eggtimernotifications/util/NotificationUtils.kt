@@ -25,6 +25,7 @@ import androidx.core.app.NotificationCompat
 import com.example.android.eggtimernotifications.MainActivity
 import com.example.android.eggtimernotifications.R
 import com.example.android.eggtimernotifications.receiver.SnoozeReceiver
+import java.security.spec.PKCS8EncodedKeySpec
 
 // Notification ID.
 private val NOTIFICATION_ID = 0
@@ -60,7 +61,14 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .bigPicture(eggImage)
         .bigLargeIcon(null)
 
-    // TODO: Step 2.2 add snooze action
+    // Step 2.2 add snooze action
+    val snoozeIntent = Intent(applicationContext, SnoozeReceiver::class.java)
+    val snoozePendingIntent: PendingIntent = PendingIntent.getBroadcast(
+        applicationContext,
+        REQUEST_CODE,
+        snoozeIntent,
+        FLAGS
+    )
 
     // Step 1.2 get an instance of NotificationCompat.Builder
     // Build the notification
@@ -80,20 +88,25 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)
 
-    // Step 2.1 add style to builder
+        // Step 2.1 add style to builder
         .setStyle(bigPicStyle)
         .setLargeIcon(eggImage)
 
-    // TODO: Step 2.3 add snooze action
+        // Step 2.3 add snooze action
+        .addAction(
+            R.drawable.egg_icon,
+            applicationContext.getString(R.string.snooze),
+            snoozePendingIntent
+        )
 
-    // TODO: Step 2.5 set priority
-
+    // Step 2.5 set priority
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
     // Step 1.4 call notify
     notify(NOTIFICATION_ID, builder.build())
 
 }
 
-// TODO: Step 1.14 Cancel all notifications
+// Step 1.14 Cancel all notifications
 fun NotificationManager.cancelNotifications() {
     cancelAll()
 }
